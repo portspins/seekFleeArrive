@@ -1,6 +1,6 @@
 // File : character.h
 // Purpose : Header file for the Character class
-// Authors : Matthew Hise (mrh0036@uah.edu) and Gray Cummings (gdc0013@uah.edu)
+// Author : Matthew Hise (mrh0036@uah.edu)
 
 #pragma once
 
@@ -28,6 +28,7 @@ private:
 
 public:
 	Character();			// Class constructor
+	Character(int id);		// Parametrized class constructor
 	~Character();			// Destructor
 	void setId(int id);
 	int getId();
