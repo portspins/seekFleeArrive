@@ -7,6 +7,8 @@
 struct Coords {
 	double x;
 	double z;
+	void normalize();
+	double length();
 };
 
 class Character {

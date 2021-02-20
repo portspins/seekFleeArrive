@@ -3,6 +3,7 @@
 // Author : Matthew Hise (mrh0036@uah.edu)
 
 #include "character.h"
+#include <cmath>
 
 /*
  * Default constructor
@@ -283,3 +284,22 @@ double Character::getTimeToTarget()
 {
 	return timeToTarget;
 }
+
+/*
+ * Normalizes the 2D vector
+ */
+void Coords::normalize()
+{
+	double length = this->length();
+	this->x = x / length;
+	this->z = z / length;
+}
+
+/*
+ * Computes the length of the 2D vector
+ */
+double Coords::length()
+{
+	return sqrt((this->x)**2 + (this->z)**2);
+}
+
