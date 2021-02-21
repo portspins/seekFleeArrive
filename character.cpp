@@ -3,15 +3,8 @@
 // Author : Matthew Hise (mrh0036@uah.edu)
 
 #include "character.h"
+#include "stop.h"
 #include <cmath>
-
-/*
- * Default constructor
- */
-Character::Character()
-{
-	this->steer = 1; // Set the initial steering to STOP
-}
 
 /*
  * Parametrized constructor
@@ -19,12 +12,28 @@ Character::Character()
  */
 Character::Character(int id)
 {
-	Charater();
+	steering = new Stop(); // Set the initial steering behavior to STOP
+	position.x = 0;
+	position.z = 0;
+	velocity.x = 0;
+	velocity.z = 0;
+	acceleration.x = 0;
+	acceleration.z = 0;
+	orientation = 0;
+	rotation = 0;
+	angular = 0;
+	maxSpeed = 0;
+	maxAcceleration = 0;
+	target = NULL;
+	targetRadius = 4.0;
+	slowRadius = 20.0;
+	timeToTarget = 1.0;
 	this->id = id;
 }
 
 Character::~Character()
 {
+	delete steering;
 }
 
 /*
@@ -47,20 +56,20 @@ int Character::getId()
 
 /*
  * Sets the steering behavior for a character
- * @param steer - an integer to set the character's steering behavior
+ * @param steer - a steering behavior
  */
-void Character::setSteer(int steer)
+void Character::setSteer(Steering *steer)
 {
-	this->steer = steer;
+	this->steering = steer;
 }
 
 /*
- * Gets the steering behavior for a character
- * @return - the character's steering behavior as an integer
+ * Gets the steering behavior code for a character
+ * @return - a steering behavior code
  */
-int Character::getSteer()
+unsigned int Character::getSteer()
 {
-	return steer;
+	return steering->getCode();
 }
 
 /*
@@ -217,18 +226,9 @@ double Character::getMaxAcceleration()
  * Sets the character's target
  * @param t - the character's target
  */
-void Character::setTarget(int t)
+void Character::setTarget(Character* targ)
 {
-	target = t;
-}
-
-/*
- * Gets the character's target
- * @return - the character's target
- */
-int Character::getTarget()
-{
-	return target;
+	target = targ;
 }
 
 /*
@@ -286,6 +286,29 @@ double Character::getTimeToTarget()
 }
 
 /*
+ * Updates the character's attributes according to Newton-Euler-1
+ * @param deltaTime - the time between updates of the character's data
+ */
+void Character::update(double deltaTime)
+{
+	steering->calcSteering(this, target);
+	position = position.add(velocity.multiply(deltaTime)); // Update the character's position
+	orientation += (rotation * deltaTime);	// Update the character's orientation
+
+	velocity = velocity.add(steering->getLinear().multiply(deltaTime)); // Update the character's linear velocity
+	rotation += (steering->getAngular() * deltaTime); // Update the character's angular velocity
+
+	if (velocity.length() > maxSpeed) {
+		velocity.normalize();
+		velocity = velocity.multiply(maxSpeed);
+	}
+
+	acceleration = steering->getLinear(); // Update the character's linear acceleration
+	angular = steering->getAngular(); // Update the character's angular acceleration
+
+}
+
+/*
  * Normalizes the 2D vector
  */
 void Coords::normalize()
@@ -300,6 +323,41 @@ void Coords::normalize()
  */
 double Coords::length()
 {
-	return sqrt((this->x)**2 + (this->z)**2);
+	return sqrt(pow(this->x, 2) + pow(this->z, 2));
 }
 
+/*
+ * Multiplies the 2D vector by a scalar
+ * @return - the scaled 2D vector
+ */
+Coords Coords::multiply(double n)
+{
+	Coords product;
+	product.x = this->x * n; // Multiply the x coordinate by the scalar
+	product.z = this->z * n; // Multiply the z coordinate by the scalar
+	return product;
+}
+
+/*
+ * Adds two 2D vectors with two elements each
+ * @return - the sum of the two vectors
+ */
+Coords Coords::add(Coords addend)
+{
+	Coords sum;
+	sum.x = this->x + addend.x; // Add the x coordinates
+	sum.z = this->z + addend.z; // Add the z coordinates
+	return sum;
+}
+
+/*
+ * Subtracts two 2D vectors with two elements each
+ * @return - the difference of the two vectors
+ */
+Coords Coords::sub(Coords subtra)
+{
+	Coords diff;
+	diff.x = this->x - subtra.x; // Subtract the x coordinates
+	diff.z = this->z - subtra.z; // Subtract the z coordinates
+	return diff;
+}
