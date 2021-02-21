@@ -3,7 +3,7 @@
 // Purpose : Implement the dynamic movement algorithms seek, flee, arrive, and stop.
 // Authors : Matthew Hise (mrh0036@uah.edu) and Gray Cummings (gdc0013@uah.edu)
 // Created:  2021 - 2 - 19
-// Modified : 2021 - 2 - 20
+// Modified : 2021 - 2 - 21
 
 #include <stdio.h>
 #include <iostream>
@@ -37,13 +37,6 @@ int main(void) {
 
 	// Initialize the STOP character
 	chars[0] = new Character(161);
-	currentChar = chars[0];
-	currentChar->setSteer(new Stop());
-	currentChar->setPosition(0, 0);
-	currentChar->setVelocity(0, 0);
-	currentChar->setOrientation(0);
-	currentChar->setMaxSpeed(0);
-	currentChar->setMaxAcceleration(0);
 
 	// Initialize the FLEE character
 	chars[1] = new Character(162);
@@ -94,8 +87,6 @@ int main(void) {
 		for (int i = 0; i < 4; i++) {
 			currentChar = chars[i];
 			currentChar->update(deltaTime);
-			
-			// Need to update ALIGNMENT here?
 		}
 
 		// Write the updated states of the characters to the file
@@ -105,6 +96,11 @@ int main(void) {
 				<< "," << chars[i]->getAcceleration().x << "," << chars[i]->getAcceleration().z << ","
 				<< chars[i]->getOrientation() << "," << chars[i]->getSteer() << endl;
 		}
+	}
+
+	// Deallocate the memory for the characters
+	for (int i = 0; i < 4; i++) {
+		delete chars[i];
 	}
 
 	newFile.close();

@@ -36,5 +36,5 @@ double Steering::getAngular()
 
 unsigned int Steering::getCode()
 {
-	return steerCode; // return the steering code
+	return steerCode;
 }

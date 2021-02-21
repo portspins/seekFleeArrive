@@ -1,6 +1,6 @@
 // File : character.h
 // Purpose : Header file for the Character class
-// Author : Matthew Hise (mrh0036@uah.edu)
+// Authors : Matthew Hise (mrh0036@uah.edu) and Gray Cummings (gdc0013@uah.edu)
 
 #pragma once
 
@@ -35,7 +35,7 @@ private:
 
 public:
 	Character(int id); // Parametrized class constructor
-	~Character();			// Destructor
+	~Character();	   // Destructor
 	void setId(int id);
 	int getId();
 	void setSteer(Steering* steer);
@@ -63,5 +63,5 @@ public:
 	double getSlowRadius();
 	void setTimeToTarget(double t);
 	double getTimeToTarget();
-	void update(double deltaTime);
+	void update(double deltaTime); // Update the character at each timestep
 };

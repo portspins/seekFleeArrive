@@ -1,6 +1,6 @@
 // File : character.cpp
 // Purpose : Implementation file for the Character class
-// Author : Matthew Hise (mrh0036@uah.edu)
+// Authors : Matthew Hise (mrh0036@uah.edu) and Gray Cummings (gdc0013@uah.edu)
 
 #include "character.h"
 #include "stop.h"
@@ -12,6 +12,7 @@
  */
 Character::Character(int id)
 {
+	this->id = id;
 	steering = new Stop(); // Set the initial steering behavior to STOP
 	position.x = 0;
 	position.z = 0;
@@ -28,7 +29,6 @@ Character::Character(int id)
 	targetRadius = 4.0;
 	slowRadius = 20.0;
 	timeToTarget = 1.0;
-	this->id = id;
 }
 
 Character::~Character()
@@ -306,6 +306,8 @@ void Character::update(double deltaTime)
 	acceleration = steering->getLinear(); // Update the character's linear acceleration
 	angular = steering->getAngular(); // Update the character's angular acceleration
 
+
+	// Need to update ALIGNMENT here?
 }
 
 /*

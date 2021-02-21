@@ -21,5 +21,5 @@ Stop::~Stop()
 void Stop::calcSteering(Character* ch, Character* targ)
 {
 	ch->setVelocity(0.0, 0.0);	// set the character's linear velocity to 0
-	ch->setRotation(0.0);		// set the character's angular velovity to 0
+	ch->setRotation(0.0);		// set the character's angular velocity to 0
 }

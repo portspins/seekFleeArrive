@@ -4,8 +4,6 @@
 
 #include "seek.h"
 
-
-
 Seek::Seek()
 {
 	steerCode = 3;

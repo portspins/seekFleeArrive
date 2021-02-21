@@ -8,12 +8,12 @@
 
 class Steering {
 protected:
-	Steering();
-	Coords linear;
-	double angular;
-	unsigned int steerCode;
+	Steering(); // Default constructor
+	Coords linear;	// The steering behavior's calculated linear acceleration
+	double angular; // The steering behavior's calculated angular acceleration
+	unsigned int steerCode; // Steering code for the plotter
 public:
-	virtual void calcSteering(Character* ch, Character* targ);
+	virtual void calcSteering(Character* ch, Character* targ); // Will be implemented by subclasses to calculate steering
 	Coords getLinear();
 	double getAngular();
 	unsigned int getCode();
