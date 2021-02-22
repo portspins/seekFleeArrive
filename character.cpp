@@ -24,10 +24,11 @@ Character::Character(int id)
 	rotation = 0;
 	angular = 0;
 	maxSpeed = 0;
+	stopSpeed = 0.01;
 	maxAcceleration = 0;
 	target = NULL;
 	targetRadius = 4.0;
-	slowRadius = 20.0;
+	slowRadius = 25.0;
 	timeToTarget = 1.0;
 }
 
@@ -303,11 +304,13 @@ void Character::update(double deltaTime)
 		velocity = velocity.multiply(maxSpeed);
 	}
 
+	if (velocity.length() < stopSpeed) {
+		velocity = velocity.multiply(0);
+	}
+
 	acceleration = steering->getLinear(); // Update the character's linear acceleration
 	angular = steering->getAngular(); // Update the character's angular acceleration
 
-
-	// Need to update ALIGNMENT here?
 }
 
 /*
@@ -342,6 +345,7 @@ Coords Coords::multiply(double n)
 
 /*
  * Adds two 2D vectors with two elements each
+ * @param - the vector to add
  * @return - the sum of the two vectors
  */
 Coords Coords::add(Coords addend)
@@ -354,6 +358,7 @@ Coords Coords::add(Coords addend)
 
 /*
  * Subtracts two 2D vectors with two elements each
+ * @param - the vector to subtract
  * @return - the difference of the two vectors
  */
 Coords Coords::sub(Coords subtra)

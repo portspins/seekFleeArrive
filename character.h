@@ -27,6 +27,7 @@ private:
 	double rotation;	 // The character's current angular velocity
 	double angular;		 // The character's current angular acceleration
 	double maxSpeed;	 // The character's maximum speed
+	double stopSpeed;	// The character's minimum speed
 	double maxAcceleration; // The character's maximum acceleration
 	Character *target;		// The character's current target
 	double targetRadius;	// The character's desired proximity to target
